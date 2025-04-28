@@ -13,7 +13,9 @@ export class EmpleadosService {
     return this.http.get<any>(`${this.apiUrl}/nif/${nif}`);
   }
 
-  crearEmpleado(empleado: any) {
-    return this.http.post(this.apiUrl, empleado);
-  }
+  // empleados.service.ts
+crearEmpleado(formData: FormData) {
+  // No es necesario establecer headers, FormData lo hace automáticamente
+  return this.http.post<any>(`${this.apiUrl}`, formData);
+}
 }

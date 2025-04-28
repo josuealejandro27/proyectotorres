@@ -23,7 +23,7 @@ export class RegistrarEmpleadoComponent {
     entrada2: '',
     salida2: '',
     password: '',
-    rol: 'empleado' // Valor por defecto
+    rol: 'empleado' // Siempre será "empleado", no se puede cambiar
   };
 
   previewFoto: string | ArrayBuffer | null = null;
@@ -75,6 +75,17 @@ export class RegistrarEmpleadoComponent {
     }
     this.emailError = '';
     return true;
+  }
+
+  // Método para limitar la entrada del teléfono a solo números y máximo 10 dígitos
+  limitarTelefono() {
+    // Eliminar cualquier carácter que no sea número
+    this.nuevoEmpleado.telefono = this.nuevoEmpleado.telefono.replace(/[^0-9]/g, '');
+    
+    // Limitar a 10 dígitos
+    if (this.nuevoEmpleado.telefono.length > 10) {
+      this.nuevoEmpleado.telefono = this.nuevoEmpleado.telefono.substring(0, 10);
+    }
   }
 
   validarTelefono(): boolean {
@@ -144,36 +155,34 @@ export class RegistrarEmpleadoComponent {
       alert('Por favor, completa correctamente todos los campos requeridos');
       return;
     }
-  
-    // Definimos el objeto que se enviará
-    const datosEmpleado: any = {
-      nombre: this.nuevoEmpleado.nombre,
-      nif: this.nuevoEmpleado.nif,
-      email: this.nuevoEmpleado.email,
-      telefono: this.nuevoEmpleado.telefono,
-      departamento: this.nuevoEmpleado.departamento,
-      puesto: this.nuevoEmpleado.puesto,
-      horario: this.nuevoEmpleado.horario,
-      entrada1: this.nuevoEmpleado.entrada1,
-      salida1: this.nuevoEmpleado.salida1,
-      password: this.nuevoEmpleado.password,
-      // No mandamos estatus ni rol, el servidor los pone
-    };
-  
-    if (this.nuevoEmpleado.horario === 'mixto') {
-      datosEmpleado.entrada2 = this.nuevoEmpleado.entrada2;
-      datosEmpleado.salida2 = this.nuevoEmpleado.salida2;
-    }
+    
+    // Asegurar que el rol siempre sea "empleado"
+    this.nuevoEmpleado.rol = 'empleado';
   
     const formData = new FormData();
-    Object.keys(datosEmpleado).forEach(key => {
-      formData.append(key, datosEmpleado[key]);
-    });
-  
-    if (this.nuevoEmpleado.foto) {
-      formData.append('foto', this.nuevoEmpleado.foto);
+    
+    // Agregar campos uno a uno para evitar errores
+    formData.append('nombre', this.nuevoEmpleado.nombre);
+    formData.append('nif', this.nuevoEmpleado.nif);
+    formData.append('email', this.nuevoEmpleado.email);
+    formData.append('telefono', this.nuevoEmpleado.telefono);
+    formData.append('departamento', this.nuevoEmpleado.departamento);
+    formData.append('puesto', this.nuevoEmpleado.puesto);
+    formData.append('horario', this.nuevoEmpleado.horario);
+    formData.append('entrada1', this.nuevoEmpleado.entrada1);
+    formData.append('salida1', this.nuevoEmpleado.salida1);
+    formData.append('password', this.nuevoEmpleado.password);
+    formData.append('rol', this.nuevoEmpleado.rol);
+    
+    if (this.nuevoEmpleado.horario === 'mixto') {
+      formData.append('entrada2', this.nuevoEmpleado.entrada2);
+      formData.append('salida2', this.nuevoEmpleado.salida2);
     }
-  
+    
+    if (this.nuevoEmpleado.foto) {
+      formData.append('foto', this.nuevoEmpleado.foto, this.nuevoEmpleado.foto.name);
+    }
+    
     this.empleadosService.crearEmpleado(formData).subscribe({
       next: (response) => {
         alert('Empleado registrado exitosamente!');
@@ -187,7 +196,6 @@ export class RegistrarEmpleadoComponent {
     });
   }
   
-
   resetFormulario() {
     this.formSubmitted = false;
     this.nuevoEmpleado = {
