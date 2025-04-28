@@ -1,0 +1,18 @@
+<div class="dashboard">
+    <nav class="sidebar">
+      <h3>Recursos Humanos</h3>
+      <ul>
+        <li *ngFor="let item of menuItems">
+          <a [routerLink]="item.path" routerLinkActive="active">{{ item.label }}</a>
+        </li>
+        <li>
+          <button class="logout-button" (click)="cerrarSesion()">Cerrar Sesión</button>
+        </li>
+      </ul>
+    </nav>
+  
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  

@@ -1,0 +1,38 @@
+<div class="container">
+    <button class="rh-button" (click)="irARH()">Recursos Humanos</button>
+  
+    <div class="buscar-container">
+      <h1>Registro de Asistencia</h1>
+  
+      <div class="buscador">
+        <input
+          type="text"
+          [(ngModel)]="nif"
+          placeholder="Ingrese NIF del empleado"
+          (keyup.enter)="buscarEmpleado()"
+        >
+        <button (click)="buscarEmpleado()">
+          <i class="fas fa-search"></i> Registrar
+        </button>
+      </div>
+  
+      <div *ngIf="mensajeError" class="mensaje-error">
+        {{ mensajeError }}
+      </div>
+    </div>
+  
+    <div *ngIf="empleadoMostrado" class="tarjeta-empleado">
+      <div class="foto-container">
+        <img 
+          [src]="empleadoMostrado.foto"
+          alt="Foto del empleado"
+          onerror="this.src='assets/user-default.png'"
+        >
+      </div>
+      <div class="detalles">
+        <h2>{{ empleadoMostrado.nombre }}</h2>
+        <p class="departamento">{{ empleadoMostrado.departamento }}</p>
+      </div>
+    </div>
+  </div>
+  

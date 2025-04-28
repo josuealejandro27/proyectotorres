@@ -1,0 +1,30 @@
+<div class="buscar-container">
+    <h2>Buscar Registros</h2>
+    <div class="filtros">
+      <input [(ngModel)]="filtros.nif" placeholder="NIF del empleado">
+      <input type="date" [(ngModel)]="filtros.fechaInicio">
+      <input type="date" [(ngModel)]="filtros.fechaFin">
+      <select [(ngModel)]="filtros.faltas">
+        <option value="">Todas las asistencias</option>
+        <option value="1">Solo faltas</option>
+      </select>
+      <button (click)="buscar()">Buscar</button>
+    </div>
+  
+    <table *ngIf="registros.length > 0">
+      <thead>
+        <tr>
+          <th>NIF</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let registro of registros">
+          <td>{{ registro.nif }}</td>
+          <td>{{ registro.fecha }}</td>
+          <td>{{ registro.faltas ? 'Falta' : 'Puntual' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
