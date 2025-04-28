@@ -1,10 +1,20 @@
+<div class="back-button">
+  <button (click)="goHome()">← Regresar</button>
+</div>
+
 <div class="login-container">
-    <h2>Acceso Recursos Humanos</h2>
-    <div class="form-group">
-      <input type="text" [(ngModel)]="usuario" placeholder="Usuario">
-    </div>
-    <div class="form-group">
-      <input type="password" [(ngModel)]="password" placeholder="Contraseña">
-    </div>
-    <button (click)="login()">Ingresar</button>
+  <h2>Acceso Recursos Humanos</h2>
+  <div class="form-group">
+    <input type="text" [(ngModel)]="usuario" placeholder="Usuario (NIF)">
+  </div>
+  <div class="form-group">
+    <input type="password" [(ngModel)]="password" placeholder="Contraseña">
+  </div>
+  <button (click)="login()" [disabled]="cargando">
+    {{ cargando ? 'Cargando...' : 'Ingresar' }}
+  </button>
+  
+  <div class="error-message" *ngIf="error">
+    {{ error }}
+  </div>
 </div>

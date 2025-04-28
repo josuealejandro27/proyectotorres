@@ -21,6 +21,6 @@ export class RhDashboardComponent {
 
   cerrarSesion() {
     this.authService.logout();
-    this.router.navigate(['/rh-login']);
+    this.router.navigate(['/']);
   }
 }
