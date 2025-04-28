@@ -197,3 +197,17 @@
     <button type="submit" class="btn-guardar">Guardar</button>
   </form>
 </div>
+
+<!-- Modal de éxito -->
+<div class="modal-exito" *ngIf="modalExitoVisible" [class.mostrar]="modalExitoVisible">
+  <div class="modal-exito-contenido">
+    <h2>✅ Registrado correctamente</h2>
+  </div>
+</div>
+
+<!-- Modal de error -->
+<div class="modal-error" *ngIf="modalErrorVisible" [class.mostrar]="modalErrorVisible">
+  <div class="modal-error-contenido">
+    <h2>❌ {{ errorMensaje }}</h2>
+  </div>
+</div>

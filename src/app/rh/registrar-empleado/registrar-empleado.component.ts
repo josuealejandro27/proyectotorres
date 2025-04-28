@@ -37,6 +37,27 @@ export class RegistrarEmpleadoComponent {
     private router: Router
   ) {}
 
+    // Variables para modales
+    modalExitoVisible = false;
+    modalErrorVisible = false;
+    errorMensaje = '';
+    
+    mostrarModalExito() {
+      this.modalExitoVisible = true;
+      setTimeout(() => {
+        this.modalExitoVisible = false;
+      }, 2000); // Se cierra solo en 2 segundos
+    }
+    
+    mostrarModalError(mensaje: string) {
+      this.errorMensaje = mensaje;
+      this.modalErrorVisible = true;
+      setTimeout(() => {
+        this.modalErrorVisible = false;
+      }, 3000); // Error dura 3 segundos
+    }
+    
+
   generarNIF(nombre: string): string {
     if (!nombre.trim()) return '';
     
@@ -152,7 +173,7 @@ export class RegistrarEmpleadoComponent {
 
   registrar() {
     if (!this.validarFormulario()) {
-      alert('Por favor, completa correctamente todos los campos requeridos');
+      this.mostrarModalError('Por favor, completa correctamente todos los campos requeridos');
       return;
     }
     
@@ -185,16 +206,17 @@ export class RegistrarEmpleadoComponent {
     
     this.empleadosService.crearEmpleado(formData).subscribe({
       next: (response) => {
-        alert('Empleado registrado exitosamente!');
+        this.mostrarModalExito(); // ✅ Mostrar modal de éxito
         this.resetFormulario();
         this.router.navigate(['/rh']);
       },
       error: (err) => {
         console.error('Error completo:', err);
-        alert('Error al guardar: ' + (err.error?.message || 'Error desconocido'));
+        this.mostrarModalError(err.error?.message || 'Error desconocido al guardar');
       }
     });
   }
+  
   
   resetFormulario() {
     this.formSubmitted = false;

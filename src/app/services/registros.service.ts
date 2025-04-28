@@ -20,4 +20,8 @@ export class RegistrosService {
   searchRegistrations(filtros: any) {
     return this.http.post(`${this.apiUrl}/buscar`, filtros);
   }
+
+  updateComentario(id: string, comentario: string) {
+    return this.http.patch(`${this.apiUrl}/${id}/comentario`, { comentario });
+  }
 }
